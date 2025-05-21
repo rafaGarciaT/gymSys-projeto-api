@@ -1,4 +1,4 @@
-package com.grupo.gymSys.controller.model;
+package com.grupo.gymSys.domain.model;
 
 import jakarta.persistence.*;
 
