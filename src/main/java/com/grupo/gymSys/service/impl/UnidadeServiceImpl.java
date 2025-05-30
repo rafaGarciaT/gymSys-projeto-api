@@ -17,14 +17,20 @@ public class UnidadeServiceImpl implements UnidadeService {
     public UnidadeServiceImpl(UnidadeRepository unidadeRepository) {
         this.unidadeRepository = unidadeRepository;
     }
+
     @Override
     public Unidade findById(Long id) {
         return unidadeRepository.findById(id).orElseThrow(NoSuchElementException::new);
     }
 
     @Override
-    public Unidade create(Usuario userToCreate) {
-        if(unidadeRepository.existsById(Long id)unidadeTocreate.getid){}
+    public Unidade create(Usuario unidadeToCreate) {
+        if (unidadeRepository.existsByCep(unidadeToCreate.getCep())) {
+            throw new IllegalArgumentException("Já existe um usuário cadastrado com esse Cep.");
+        }
+        if (unidadeRepository.existsByEndereco(unidadeToCreate.getEndereco())) {
+            throw new IllegalArgumentException("Já existe um usuário cadastrado com esse Endereco.");
+        }
         return unidadeRepository.save(unidadeToCreate);
     }
 
