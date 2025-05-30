@@ -4,4 +4,6 @@ import com.grupo.gymSys.domain.model.Unidade;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface UnidadeRepository extends JpaRepository<Unidade, Long> {
+    boolean existsByEndereco(String Endereco);
+    boolean existsByCep(String Cep);
 }

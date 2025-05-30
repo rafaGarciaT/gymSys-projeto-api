@@ -6,7 +6,7 @@ import com.grupo.gymSys.domain.model.Usuario;
 public interface UnidadeService {
     Unidade findById(Long id);
 
-    Unidade create(Usuario userToCreate);
+    Unidade create(Unidade userToCreate);
 
     void deleteById(Long id);
 }
