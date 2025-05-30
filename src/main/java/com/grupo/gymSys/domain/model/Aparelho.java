@@ -45,5 +45,4 @@ public class Aparelho {
         this.UltimaMenutencao = UltimaMenutencao;
     }
 
-
 }
