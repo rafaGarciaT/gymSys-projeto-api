@@ -11,7 +11,7 @@ public class Aparelho {
     private long id;
     private String tipo;
     private int quantidade;
-    private String ultimaMenutencao;
+    private String UltimaMenutencao;
 
     public long getId() {
         return id;
@@ -38,11 +38,11 @@ public class Aparelho {
     }
 
     public String getUltimaMenutencao() {
-        return ultimaMenutencao;
+        return UltimaMenutencao;
     }
 
-    public void setUltimaMenutencao(String ultimaMenutencao) {
-        this.ultimaMenutencao = ultimaMenutencao;
+    public void setUltimaMenutencao(String UltimaMenutencao) {
+        this.UltimaMenutencao = UltimaMenutencao;
     }
 
 
