@@ -27,7 +27,7 @@ public class UsuarioServiceImpl implements UsuarioService {
             throw new IllegalArgumentException("Já existe um usuário cadastrado com esse email.");
         }
 
-        if (usuarioRepository.existsByPhone(userToCreate.getTelefone())) {
+        if (usuarioRepository.existsByTelefone(userToCreate.getTelefone())) {
             throw new IllegalArgumentException("Já existe um usuário cadastrado com esse telefone.");
         }
 
