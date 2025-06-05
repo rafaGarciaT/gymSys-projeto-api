@@ -1,7 +1,10 @@
 package com.grupo.gymSys.controller;
 
+import com.grupo.gymSys.domain.dto.UsuarioDTO;
 import com.grupo.gymSys.domain.model.Usuario;
+import com.grupo.gymSys.domain.mapper.UsuarioMapper;
 import com.grupo.gymSys.service.UsuarioService;
+import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
@@ -13,9 +16,11 @@ import java.net.URI;
 public class UsuarioController {
 
     private final UsuarioService usuarioService;
+    private final UsuarioMapper usuarioMapper;
 
-    public UsuarioController(UsuarioService usuarioService) {
+    public UsuarioController(UsuarioService usuarioService, UsuarioMapper usuarioMapper) {
         this.usuarioService = usuarioService;
+        this.usuarioMapper = usuarioMapper;
     }
 
     @GetMapping("/{id}")
@@ -25,13 +30,14 @@ public class UsuarioController {
     }
 
     @PostMapping
-    public ResponseEntity<Usuario> create(@RequestBody Usuario userToCreate) {
-        var userCreated = usuarioService.create(userToCreate);
+    public ResponseEntity<UsuarioDTO> create(@Valid @RequestBody UsuarioDTO userToCreate) {
+        Usuario savedUser = usuarioService.create(usuarioMapper.toEntity(userToCreate));
+
         URI location = ServletUriComponentsBuilder.fromCurrentRequest()
                 .path("/{id}")
-                .buildAndExpand(userCreated.getId())
+                .buildAndExpand(savedUser.getId())
                 .toUri();
-        return ResponseEntity.created(location).body(userCreated);
+        return ResponseEntity.created(location).body(usuarioMapper.toDTO(savedUser));
     }
 
     @DeleteMapping("/{id}")
@@ -41,9 +47,9 @@ public class UsuarioController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Usuario> update(@PathVariable Long id, @RequestBody Usuario updatedUser) {
-        Usuario user = usuarioService.update(id, updatedUser);
-        return ResponseEntity.ok(user);
+    public ResponseEntity<UsuarioDTO> update(@PathVariable Long id, @Valid @RequestBody UsuarioDTO dto) {
+        Usuario updated = usuarioService.update(id, usuarioMapper.toEntity(dto));
+        return ResponseEntity.ok(usuarioMapper.toDTO(updated));
     }
 
 }
