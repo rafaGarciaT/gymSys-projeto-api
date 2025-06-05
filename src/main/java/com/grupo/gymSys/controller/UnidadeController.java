@@ -1,6 +1,6 @@
 package com.grupo.gymSys.controller;
 
-import com.grupo.gymSys.domain.model.Usuario;
+import com.grupo.gymSys.domain.model.Unidade;
 import com.grupo.gymSys.service.UnidadeService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
