@@ -55,7 +55,7 @@ public class UsuarioServiceImpl implements UsuarioService {
 
         existingUser.setEmail(updatedUser.getEmail());
 
-        if (usuarioRepository.existsByEmail(updatedUser.getTelefone())) {
+        if (usuarioRepository.existsByTelefone(updatedUser.getTelefone())) {
             throw new IllegalArgumentException("Já existe um usuário cadastrado com esse email.");
         }
 
