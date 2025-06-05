@@ -8,4 +8,6 @@ public interface UsuarioService {
     Usuario create(Usuario userToCreate);
 
     void deleteById(Long id);
+
+    Usuario update(Long id, Usuario updatedUser);
 }

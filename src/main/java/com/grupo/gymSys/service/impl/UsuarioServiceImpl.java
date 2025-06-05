@@ -41,4 +41,26 @@ public class UsuarioServiceImpl implements UsuarioService {
         }
         usuarioRepository.deleteById(id);
     }
+
+    @Override
+    public Usuario update(Long id, Usuario updatedUser) {
+        Usuario existingUser = usuarioRepository.findById(id)
+                .orElseThrow(() -> new NoSuchElementException("Nenhum usuário encontrado com esse id."));
+
+        existingUser.setNome(updatedUser.getNome());
+
+        if (usuarioRepository.existsByEmail(updatedUser.getEmail())) {
+            throw new IllegalArgumentException("Já existe um usuário cadastrado com esse email.");
+        }
+
+        existingUser.setEmail(updatedUser.getEmail());
+
+        if (usuarioRepository.existsByEmail(updatedUser.getTelefone())) {
+            throw new IllegalArgumentException("Já existe um usuário cadastrado com esse email.");
+        }
+
+        existingUser.setTelefone(updatedUser.getTelefone());
+
+        return usuarioRepository.save(existingUser);
+    }
 }
