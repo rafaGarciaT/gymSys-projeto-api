@@ -11,18 +11,8 @@ public class Aparelho {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
 
-    @PositiveOrZero(message = "Campo Id precisa ser 0 ou positivo")
-
     private long id;
-
-    @NotBlank(message = "Campo X obrigatório.")
-    @Size(max = 100, message = "X não pode passar de 100 caracteres.")
-
     private String tipo;
-
-    @NotNull(message = "Campo X obrigatório")
-    @Positive(message = "X precisa ser positivo")
-
     private int quantidade;
     private String UltimaMenutencao;
 
