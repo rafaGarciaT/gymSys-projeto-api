@@ -9,37 +9,52 @@ import java.util.NoSuchElementException;
 
 @Service
 public class FuncionarioServiceImpl implements FuncionarioService {
-    private final FuncionarioRepository FuncionarioRepository;
+    private final FuncionarioRepository funcionarioRepository;
 
     public FuncionarioServiceImpl(FuncionarioRepository FuncionarioRepository) {
-        this.FuncionarioRepository = FuncionarioRepository;
+        this.funcionarioRepository = FuncionarioRepository;
     }
 
     @Override
     public Funcionario findById(Long id) {
-        return FuncionarioRepository.findById(id).orElseThrow(NoSuchElementException::new);
+        return funcionarioRepository.findById(id).orElseThrow(NoSuchElementException::new);
     }
 
     @Override
     public Funcionario create(Funcionario userToCreate) {
-        if (FuncionarioRepository.existsByNome(userToCreate.getNome())) {
+        if (funcionarioRepository.existsByNome(userToCreate.getNome())) {
             throw new IllegalArgumentException("Já existe um Funcionario cadastrado com esse email.");
         }
 
-        if (FuncionarioRepository.existsById(userToCreate.getId())) {
+        if (funcionarioRepository.existsById(userToCreate.getId())) {
             throw new IllegalArgumentException("Já existe um Funcionario cadastrado com esse telefone.");
         }
 
-        return FuncionarioRepository.save(userToCreate);
+        return funcionarioRepository.save(userToCreate);
     }
 
     @Override
     public void deleteById(Long id) {
-        if (!FuncionarioRepository.existsById(id)) {
+        if (!funcionarioRepository.existsById(id)) {
             throw new NoSuchElementException("Nenhum Funcionario encontrado com esse id.");
         }
-        FuncionarioRepository.deleteById(id);
+        funcionarioRepository.deleteById(id);
     }
+
+    @Override
+    public Funcionario update(Long id, Funcionario updatedFuncionario) {
+        Funcionario existingFuncionario = funcionarioRepository.findById(id)
+                .orElseThrow(() -> new NoSuchElementException("Nenhum funcionário encontrado com esse id."));
+
+
+        existingFuncionario.setNome(updatedFuncionario.getNome());
+        existingFuncionario.setCargo(updatedFuncionario.getCargo());
+        existingFuncionario.setSalario(updatedFuncionario.getSalario());
+
+
+        return funcionarioRepository.save(existingFuncionario);
+    }
+
 }
 
 

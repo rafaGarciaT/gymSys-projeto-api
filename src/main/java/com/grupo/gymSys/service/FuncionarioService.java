@@ -9,4 +9,6 @@ public interface FuncionarioService {
     Funcionario create(Funcionario userToCreate);
 
     void deleteById(Long id);
+
+    Funcionario update(Long id, Funcionario updatedFuncionario);
 }
