@@ -13,6 +13,10 @@ public class Funcionario {
     private String cargo;
     private Double salario;
 
+    @ManyToOne
+    @JoinColumn(name = "unidade_id")
+    private Unidade unidade;
+
     public long getId() {
         return id;
     }

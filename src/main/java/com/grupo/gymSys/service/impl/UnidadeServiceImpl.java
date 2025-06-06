@@ -40,4 +40,20 @@ public class UnidadeServiceImpl implements UnidadeService {
         }
         unidadeRepository.deleteById(id);
     }
+
+    @Override
+    public Unidade update(Long id, Unidade updatedUnidade) {
+        Unidade existingUnidade = unidadeRepository.findById(id)
+                .orElseThrow(() -> new NoSuchElementException("Nenhuma unidade encontrada com esse id."));
+
+
+        existingUnidade.setEndereco(updatedUnidade.getEndereco());
+        existingUnidade.setCidade(updatedUnidade.getCidade());
+        existingUnidade.setEstado(updatedUnidade.getEstado());
+        existingUnidade.setNumero(updatedUnidade.getNumero());
+        existingUnidade.setCep(updatedUnidade.getCep());
+
+
+        return unidadeRepository.save(existingUnidade);
+    }
 }
