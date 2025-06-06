@@ -2,6 +2,8 @@ package com.grupo.gymSys.domain.model;
 
 import jakarta.persistence.*;
 
+import java.util.List;
+
 @Entity
 @Table(name= "tb_unidades")
 public class Unidade {
@@ -16,6 +18,12 @@ public class Unidade {
 
     private String numero;
     private String cep;
+
+    @OneToMany(mappedBy = "unidade")
+    private List<Funcionario> funcionarios;
+
+    @OneToMany(mappedBy = "unidade")
+    private List<UnidadeAparelho> unidadeAparelhos;
 
     public String getCep() {
         return cep;
