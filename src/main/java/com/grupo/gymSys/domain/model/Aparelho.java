@@ -1,6 +1,9 @@
 package com.grupo.gymSys.domain.model;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.*;
+
+import java.util.List;
 
 @Entity
 @Table(name= "tb_aparelhos")
@@ -12,6 +15,9 @@ public class Aparelho {
     private String tipo;
     private int quantidade;
     private String UltimaMenutencao;
+
+    @OneToMany(mappedBy = "aparelho")
+    private List<UnidadeAparelho> unidadeAparelhos;
 
     public long getId() {
         return id;

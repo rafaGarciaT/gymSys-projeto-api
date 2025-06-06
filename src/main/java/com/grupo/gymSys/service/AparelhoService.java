@@ -10,4 +10,6 @@ public interface AparelhoService
         Aparelho create(Aparelho userToCreate);
 
         void deleteById(Long id);
+
+        Aparelho update(Long id, Aparelho updatedAparelho);
     }

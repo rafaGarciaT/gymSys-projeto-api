@@ -12,31 +12,45 @@ import java.util.NoSuchElementException;
 @Service
 public class AparelhoServiceImpl implements AparelhoService {
 
-    private final AparelhoRepository AparelhoRepository;
+    private final AparelhoRepository aparelhoRepository;
 
     public AparelhoServiceImpl(AparelhoRepository AparelhoRepository) {
-        this.AparelhoRepository = AparelhoRepository;
+        this.aparelhoRepository = AparelhoRepository;
     }
 
     @Override
     public Aparelho findById(Long id) {
-        return AparelhoRepository.findById(id).orElseThrow(NoSuchElementException::new);
+        return aparelhoRepository.findById(id).orElseThrow(NoSuchElementException::new);
     }
 
     @Override
     public Aparelho create(Aparelho userToCreate) {
-        if (AparelhoRepository.existsByTipo(userToCreate.getTipo())) {
+        if (aparelhoRepository.existsByTipo(userToCreate.getTipo())) {
             throw new IllegalArgumentException("Já existe um Aparelho cadastrado com esse email.");
         }
 
-        return AparelhoRepository.save(userToCreate);
+        return aparelhoRepository.save(userToCreate);
     }
 
     @Override
     public void deleteById(Long id) {
-        if (!AparelhoRepository.existsById(id)) {
+        if (!aparelhoRepository.existsById(id)) {
             throw new NoSuchElementException("Nenhum Aparelho encontrado com esse id.");
         }
-        AparelhoRepository.deleteById(id);
+        aparelhoRepository.deleteById(id);
     }
+    @Override
+    public Aparelho update(Long id, Aparelho updatedAparelho) {
+        Aparelho existingAparelho = aparelhoRepository.findById(id)
+                .orElseThrow(() -> new NoSuchElementException("Nenhum aparelho encontrado com esse id."));
+
+
+        existingAparelho.setTipo(updatedAparelho.getTipo());
+        existingAparelho.setQuantidade(updatedAparelho.getQuantidade());
+        existingAparelho.setUltimaMenutencao(updatedAparelho.getUltimaMenutencao());
+
+
+        return aparelhoRepository.save(existingAparelho);
+    }
+
 }
