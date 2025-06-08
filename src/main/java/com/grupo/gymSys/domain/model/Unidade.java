@@ -25,6 +25,14 @@ public class Unidade {
     @OneToMany(mappedBy = "unidade")
     private List<UnidadeAparelho> unidadeAparelhos;
 
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
+    }
+
     public String getCep() {
         return cep;
     }
@@ -65,10 +73,19 @@ public class Unidade {
         this.endereco = endereco;
     }
 
-    public long getId() {
-        return id;
+    public List<Funcionario> getFuncionarios() {
+        return funcionarios;
     }
-    public void setId(long id) {
-        this.id = id;
+
+    public void setFuncionarios(List<Funcionario> funcionarios) {
+        this.funcionarios = funcionarios;
+    }
+
+    public List<UnidadeAparelho> getUnidadeAparelhos() {
+        return unidadeAparelhos;
+    }
+
+    public void setUnidadeAparelhos(List<UnidadeAparelho> unidadeAparelhos) {
+        this.unidadeAparelhos = unidadeAparelhos;
     }
 }

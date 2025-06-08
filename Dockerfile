@@ -1,5 +1,5 @@
 FROM openjdk:17-jdk-slim
-WORKDIR /gymSys
-COPY target/gymSys.jar
+WORKDIR /app
+COPY target/gymSys-0.0.1-SNAPSHOT.jar app.jar
 EXPOSE 8080
-ENTRYPOINT ["java", "-jar", "gymSys.jar"]
+ENTRYPOINT ["java", "-jar", "app.jar"]

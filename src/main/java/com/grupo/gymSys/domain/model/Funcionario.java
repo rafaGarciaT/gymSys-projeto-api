@@ -49,6 +49,11 @@ public class Funcionario {
         this.salario = salario;
     }
 
+    public Unidade getUnidade() {
+        return unidade;
+    }
 
-
+    public void setUnidade(Unidade unidade) {
+        this.unidade = unidade;
+    }
 }
