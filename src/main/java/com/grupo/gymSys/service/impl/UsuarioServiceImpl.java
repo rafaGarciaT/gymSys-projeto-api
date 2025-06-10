@@ -23,7 +23,7 @@ public class UsuarioServiceImpl implements UsuarioService {
 
     @Override
     public Usuario create(Usuario userToCreate) {
-        if (usuarioRepository.existsByEmail(userToCreate.getEmail())) {
+        if (usuarioRepository.existsByEmailIgnoreCase(userToCreate.getEmail())) {
             throw new IllegalArgumentException("Já existe um usuário cadastrado com esse email.");
         }
 
@@ -49,7 +49,7 @@ public class UsuarioServiceImpl implements UsuarioService {
 
         existingUser.setNome(updatedUser.getNome());
 
-        if (usuarioRepository.existsByEmail(updatedUser.getEmail())) {
+        if (usuarioRepository.existsByEmailIgnoreCase(updatedUser.getEmail())) {
             throw new IllegalArgumentException("Já existe um usuário cadastrado com esse email.");
         }
 

@@ -1,9 +1,7 @@
 package com.grupo.gymSys.service.impl;
 
 import com.grupo.gymSys.domain.model.Aparelho;
-import com.grupo.gymSys.domain.model.Usuario;
 import com.grupo.gymSys.domain.repository.AparelhoRepository;
-import com.grupo.gymSys.domain.repository.UsuarioRepository;
 import com.grupo.gymSys.service.AparelhoService;
 import org.springframework.stereotype.Service;
 
@@ -47,7 +45,7 @@ public class AparelhoServiceImpl implements AparelhoService {
 
         existingAparelho.setTipo(updatedAparelho.getTipo());
         existingAparelho.setQuantidade(updatedAparelho.getQuantidade());
-        existingAparelho.setUltimaMenutencao(updatedAparelho.getUltimaMenutencao());
+        existingAparelho.setUltimaManutencao(updatedAparelho.getUltimaManutencao());
 
 
         return aparelhoRepository.save(existingAparelho);

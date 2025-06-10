@@ -1,7 +1,6 @@
 package com.grupo.gymSys.domain.model;
 
 import jakarta.persistence.*;
-import jakarta.validation.constraints.*;
 
 import java.util.List;
 
@@ -14,10 +13,21 @@ public class Aparelho {
     private long id;
     private String tipo;
     private int quantidade;
-    private String UltimaMenutencao;
+    private String UltimaManutencao;
 
     @OneToMany(mappedBy = "aparelho")
     private List<UnidadeAparelho> unidadeAparelhos;
+
+    public Aparelho(String tipo, int quantidade, String ultimaManutencao) {
+        this.id = id;
+        UltimaManutencao = ultimaManutencao;
+        this.quantidade = quantidade;
+        this.tipo = tipo;
+    }
+
+    public Aparelho() {
+
+    }
 
     public long getId() {
         return id;
@@ -43,12 +53,19 @@ public class Aparelho {
         this.quantidade = quantidade;
     }
 
-    public String getUltimaMenutencao() {
-        return UltimaMenutencao;
+    public String getUltimaManutencao() {
+        return UltimaManutencao;
     }
 
-    public void setUltimaMenutencao(String UltimaMenutencao) {
-        this.UltimaMenutencao = UltimaMenutencao;
+    public void setUltimaManutencao(String UltimaMenutencao) {
+        this.UltimaManutencao = UltimaMenutencao;
     }
 
+    public List<UnidadeAparelho> getUnidadeAparelhos() {
+        return unidadeAparelhos;
+    }
+
+    public void setUnidadeAparelhos(List<UnidadeAparelho> unidadeAparelhos) {
+        this.unidadeAparelhos = unidadeAparelhos;
+    }
 }

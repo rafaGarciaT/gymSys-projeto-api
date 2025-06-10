@@ -25,6 +25,18 @@ public class Unidade {
     @OneToMany(mappedBy = "unidade")
     private List<UnidadeAparelho> unidadeAparelhos;
 
+    public Unidade(String endereco, String cidade, String estado, String numero, String cep) {
+        this.cep = cep;
+        this.numero = numero;
+        this.estado = estado;
+        this.cidade = cidade;
+        this.endereco = endereco;
+    }
+
+    public Unidade() {
+
+    }
+
     public long getId() {
         return id;
     }
