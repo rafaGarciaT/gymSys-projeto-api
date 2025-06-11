@@ -15,7 +15,6 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import java.net.URI;
 
-
 @Tag(name="Funcionários")
 @RestController
 @RequestMapping("/funcionarios")
