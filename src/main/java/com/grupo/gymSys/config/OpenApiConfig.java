@@ -30,9 +30,12 @@ public class OpenApiConfig {
                                 .url("https://opensource.org/licenses/MIT"))
                 )
                 .addServersItem(new Server()
-                    .url("http://localhost:8080")
-                    .description("Servidor local")
+                                .url("http://localhost:8080")
+                                .description("Servidor local")
                 )
+                .addServersItem(new Server()
+                        .url("https://gymsys-projeto-api.onrender.com/")
+                        .description("Servidor do Render (requer deploy)"))
                 .tags(List.of(
                     new Tag().name("Usuários").description("Gerenciamento de usuários"),
                     new Tag().name("Funcionários").description("Gerenciamento de funcionários"),
