@@ -1,0 +1,144 @@
+# GymSys API
+
+A **GymSys API** é um microserviço REST desenvolvido com **Spring Boot** para gerenciamento de academias, permitindo operações de CRUD (criar, buscar, atualizar, excluir) para os seguintes recursos:
+
+- Usuários
+- Funcionários
+- Unidades
+- Aparelhos
+
+A aplicação realiza validações, mapeamento DTO/Entity via MapStruct e é separada em camadas (Controller, Service, Repository). Também possui um gerenciamento de exceções, testes unitários feitos com JUnit 5, Mockito e JaCoCo e uma separação entre perfis de desenvolvimento e produção. 
+
+Ela foi desenvolvida pelos seguintes integrantes:
+- Guilherme Souza Dias (GuilhermeSouzaDias): Desenvolvimento da entidade “Unidade” (entity, DTO, mapper, service, controller), auxílio na criação da Join Table UnidadeFuncionarios.
+- Gabriel Lemos Silva (GabrielLemosSilva13A): Desenvolvimento da entidade “Funcionários” (entity, DTO, mapper, service, controller).
+- André Nicolas Gonsalves Batista (nidrean, andre-nicolas): Desenvolvimento da entidade “Aparelhos” (entity, DTO, mapper, service, controller), read.me.
+- Rafael Garcia Trigo (rafaGarciaT): Desenvolvimento da entidade “Usuários” (entity, DTO, mapper, service, controller).
+
+------------
+
+## Como Executar o Projeto
+
+### Perfil de Desenvolvimento
+
+#### Requisitos
+
+- Java 17 ou superior
+- Navegador
+- Postman (Opcional)
+- IDE como IntelliJ ou VSCode
+
+#### Passo a Passo
+- Clone o repositório em sua máquina.
+- Crie um perfil de configurações de execução, e coloque “SPRING_PROFILES_ACTIVE=dev” como uma variável de ambiente, e GymSysApplication.java como a classe principal.
+- Rode o programa, agora você pode testar o programa através do Postman (Usando http://localhost:8080/), ou através do swagger (http://localhost:8080/swagger-ui/index.html/) os dados inseridos persistirão em localhost:8080/h2-console.
+	- Propriedades do h2, customizáveis em application-dev.yml, porém os valores padrões são: Url, jdbc:h2:mem:sdw2023; User, myuser; Password, mypassword.
+
+### Perfil de Produção 
+
+#### Requisitos
+
+- Java 17 ou superior
+- Maven 3.8+
+- Docker instalado
+- Postman
+- IDE como IntelliJ ou VSCode
+
+#### Passo a Passo
+- Clone o repositório em sua máquina.
+- No maven, rode o comando “mvn clean packagel”.
+- Abra o prompt de comando (ou terminal) na pasta raiz “gymSys”
+- Rode os seguintes comandos:
+	- docker build -t gymSys-api .
+	- docker-compose up --build
+- Agora você pode utilizar o postman para usar a API usando o postgres.
+
+------------
+
+## Endpoints Principais
+### Usuários
+
+GET /usuarios/{id} — Buscar usuário por ID
+
+POST /usuarios — Criar novo usuário
+
+PUT /usuarios/{id} — Atualizar usuário existente
+
+DELETE /usuarios/{id} — Deletar usuário
+
+### Unidades
+
+GET /unidades/{id} — Buscar unidade por ID
+
+POST /unidades — Criar nova unidade
+
+PUT /unidades/{id} — Atualizar unidade existente
+
+DELETE /unidades/{id}  — Deletar unidade
+
+### Funcionários
+
+GET /funcionarios/{id} — Buscar funcionário por ID
+
+ POST /funcionarios — Criar novo funcionário
+
+PUT /funcionarios/{id} — Atualizar funcionário existente
+
+DELETE /funcionarios/{id}  — Deletar funcionário
+
+### Aparelhos
+
+GET /aparelhos/{id} — Buscar aparelho por ID
+
+POST /aparelhos — Criar novo aparelho
+
+PUT /aparelhos/{id} — Atualizar aparelho existente
+
+DELETE /aparelhos/{id}  — Deletar aparelho
+
+# Diagrama de Entidades(DTOs):
+```mermaid
+classDiagram
+    class UsuarioDTO {
+        Long id
+        String nome
+        String email
+        String telefone
+    }
+
+    class UnidadeDTO {
+        Long id
+        String endereco
+        String cidade
+        String estado
+        String numero
+        String cep
+    }
+
+    class FuncionarioDTO {
+        Long id
+        String nome
+        String cargo
+        Double salario
+        Long unidadeId
+    }
+
+    class AparelhoDTO {
+        Long id
+        String tipo
+        String nome
+    }
+
+    class UnidadeAparelhoDTO {
+        Long id
+        Long unidadeId
+        Long aparelhoId
+        Integer quantidade
+        LocalDate ultimaManutencao
+    }
+
+    %% Relationships (composition style)
+    FuncionarioDTO --> UnidadeDTO : unidadeId
+    UnidadeAparelhoDTO --> UnidadeDTO : unidadeId
+    UnidadeAparelhoDTO --> AparelhoDTO : aparelhoId
+```
