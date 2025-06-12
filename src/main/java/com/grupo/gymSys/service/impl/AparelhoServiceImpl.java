@@ -1,8 +1,10 @@
 package com.grupo.gymSys.service.impl;
 
+import com.grupo.gymSys.domain.dto.UnidadeAparelhoDTO;
 import com.grupo.gymSys.domain.model.Aparelho;
 import com.grupo.gymSys.domain.repository.AparelhoRepository;
 import com.grupo.gymSys.service.AparelhoService;
+import com.grupo.gymSys.service.UnidadeAparelhoService;
 import org.springframework.stereotype.Service;
 
 import java.util.NoSuchElementException;
@@ -11,9 +13,12 @@ import java.util.NoSuchElementException;
 public class AparelhoServiceImpl implements AparelhoService {
 
     private final AparelhoRepository aparelhoRepository;
+    private final UnidadeAparelhoService unidadeAparelhoService;
 
-    public AparelhoServiceImpl(AparelhoRepository AparelhoRepository) {
-        this.aparelhoRepository = AparelhoRepository;
+    public AparelhoServiceImpl(AparelhoRepository aparelhoRepository,
+                               UnidadeAparelhoService unidadeAparelhoService) {
+        this.aparelhoRepository = aparelhoRepository;
+        this.unidadeAparelhoService = unidadeAparelhoService;
     }
 
     @Override
@@ -22,12 +27,12 @@ public class AparelhoServiceImpl implements AparelhoService {
     }
 
     @Override
-    public Aparelho create(Aparelho userToCreate) {
-        if (aparelhoRepository.existsByTipo(userToCreate.getTipo())) {
-            throw new IllegalArgumentException("Já existe um Aparelho cadastrado com esse email.");
+    public Aparelho create(Aparelho aparelhoToCreate) {
+        if (aparelhoRepository.existsByNome(aparelhoToCreate.getNome())) {
+            throw new IllegalArgumentException("Já existe um aparelho cadastrado com esse nome.");
         }
 
-        return aparelhoRepository.save(userToCreate);
+        return aparelhoRepository.save(aparelhoToCreate);
     }
 
     @Override
@@ -37,16 +42,18 @@ public class AparelhoServiceImpl implements AparelhoService {
         }
         aparelhoRepository.deleteById(id);
     }
+
     @Override
     public Aparelho update(Long id, Aparelho updatedAparelho) {
         Aparelho existingAparelho = aparelhoRepository.findById(id)
                 .orElseThrow(() -> new NoSuchElementException("Nenhum aparelho encontrado com esse id."));
 
+        if (aparelhoRepository.existsByNome(updatedAparelho.getNome())) {
+            throw new IllegalArgumentException("Já existe um aparelho cadastrado com esse nome.");
+        }
 
         existingAparelho.setTipo(updatedAparelho.getTipo());
-        existingAparelho.setQuantidade(updatedAparelho.getQuantidade());
-        existingAparelho.setUltimaManutencao(updatedAparelho.getUltimaManutencao());
-
+        existingAparelho.setNome(updatedAparelho.getNome());
 
         return aparelhoRepository.save(existingAparelho);
     }

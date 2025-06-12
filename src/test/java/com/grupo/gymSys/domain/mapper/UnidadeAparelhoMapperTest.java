@@ -32,7 +32,6 @@ class UnidadeAparelhoMapperTest {
 
         UnidadeAparelhoDTO dto = mapper.toDTO(entity);
 
-        assertEquals(1L, dto.getId());
         assertEquals(10L, dto.getUnidadeId());
         assertEquals(20L, dto.getAparelhoId());
         assertEquals(5, dto.getQuantidade());
@@ -42,15 +41,12 @@ class UnidadeAparelhoMapperTest {
     @Test
     void shouldMapDtoToUnidadeAparelho() {
         UnidadeAparelhoDTO dto = new UnidadeAparelhoDTO();
-        dto.setId(2L);
         dto.setUnidadeId(100L);
         dto.setAparelhoId(200L);
         dto.setQuantidade(3);
         dto.setUltimaManutencao(LocalDate.of(2025, 5, 15));
 
         UnidadeAparelho entity = mapper.toEntity(dto);
-
-        assertEquals(2L, entity.getId());
         assertEquals(100L, entity.getUnidade().getId());
         assertEquals(200L, entity.getAparelho().getId());
         assertEquals(3, entity.getQuantidade());

@@ -22,7 +22,7 @@ public class FuncionarioDTO {
     private Double salario;
 
     @NotNull(message = "Campo unidadeId obrigatorio.")
-    @Positive(message = "UnidadeId precisa ser positivo.")
+    @PositiveOrZero(message = "Campo unidadeId precisa ser 0 ou positivo.")
     private long unidadeId;
 
     public long getUnidadeId() {

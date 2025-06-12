@@ -16,12 +16,12 @@ class AparelhoMapperTest {
         Aparelho aparelho = new Aparelho();
         aparelho.setId(1L);
         aparelho.setTipo("Esteira");
-        aparelho.setQuantidade(10);
+        aparelho.setNome("Estoura");
 
         AparelhoDTO dto = mapper.toDTO(aparelho);
 
         assertEquals("Esteira", dto.getTipo());
-        assertEquals(10, dto.getQuantidade());
+        assertEquals("Estoura", dto.getNome());
     }
 
     @Test
@@ -29,11 +29,11 @@ class AparelhoMapperTest {
         AparelhoDTO dto = new AparelhoDTO();
         dto.setId(2L);
         dto.setTipo("Bicicleta");
-        dto.setQuantidade(5);
+        dto.setNome("Bicicleta 20");
 
         Aparelho aparelho = mapper.toEntity(dto);
 
         assertEquals("Bicicleta", aparelho.getTipo());
-        assertEquals(5, aparelho.getQuantidade());
+        assertEquals("Bicicleta 20", aparelho.getNome());
     }
 }

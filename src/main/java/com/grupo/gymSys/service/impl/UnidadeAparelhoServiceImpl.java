@@ -40,10 +40,11 @@ public class UnidadeAparelhoServiceImpl implements UnidadeAparelhoService {
                 .orElseThrow(() -> new NoSuchElementException("Aparelho não encontrado"));
 
         UnidadeAparelho entity = repository.findByUnidadeIdAndAparelhoId(dto.getUnidadeId(), dto.getAparelhoId())
-                .orElse(mapper.toEntity(dto)); // map fields directly
+                .orElse(mapper.toEntity(dto));
 
         entity.setUnidade(unidade);
         entity.setAparelho(aparelho);
+        mapper.updateEntity(dto, entity);
 
         return repository.save(entity);
     }
@@ -51,5 +52,19 @@ public class UnidadeAparelhoServiceImpl implements UnidadeAparelhoService {
     @Override
     public List<UnidadeAparelho> listByUnidade(Long unidadeId) {
         return repository.findByUnidadeId(unidadeId);
+    }
+
+    @Override
+    public UnidadeAparelho findById(Long id) {
+        return repository.findById(id)
+                .orElseThrow(() -> new NoSuchElementException("Associação não encontrada"));
+    }
+
+    @Override
+    public void deleteById(Long id) {
+        if (!repository.existsById(id)) {
+            throw new NoSuchElementException("Associação não encontrada");
+        }
+        repository.deleteById(id);
     }
 }

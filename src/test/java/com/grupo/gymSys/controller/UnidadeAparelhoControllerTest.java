@@ -49,8 +49,7 @@ public class UnidadeAparelhoControllerTest {
     void setup() {
         existingAparelho = new Aparelho();
         existingAparelho.setTipo("Esteira");
-        existingAparelho.setQuantidade(5);
-        existingAparelho.setUltimaManutencao(String.valueOf(LocalDate.now().minusMonths(2)));
+        existingAparelho.setNome("Terona");
 
         existingUnidade = new Unidade();
         existingUnidade.setEndereco("Rua A");
@@ -82,7 +81,7 @@ public class UnidadeAparelhoControllerTest {
         mockMvc.perform(post("/unidade-aparelhos")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(dto)))
-                .andExpect(status().isOk());
+                .andExpect(status().isCreated());
     }
 
     @Test
@@ -96,7 +95,7 @@ public class UnidadeAparelhoControllerTest {
         mockMvc.perform(post("/unidade-aparelhos")
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(dto)))
-                .andExpect(status().isOk());
+                .andExpect(status().isCreated());
 
         mockMvc.perform(get("/unidade-aparelhos/unidade/" + existingUnidade.getId())
                         .accept(MediaType.APPLICATION_JSON))
@@ -130,4 +129,81 @@ public class UnidadeAparelhoControllerTest {
                 .andExpect(result -> assertThat(result.getResolvedException())
                         .isInstanceOf(NoSuchElementException.class));
     }
+
+    @Test
+    void shouldGetUnidadeAparelhoById() throws Exception {
+        UnidadeAparelhoDTO dto = new UnidadeAparelhoDTO();
+        dto.setUnidadeId(existingUnidade.getId());
+        dto.setAparelhoId(existingAparelho.getId());
+        dto.setQuantidade(3);
+        dto.setUltimaManutencao(LocalDate.now().minusDays(5));
+
+        String response = mockMvc.perform(post("/unidade-aparelhos")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(dto)))
+                .andExpect(status().isCreated())
+                .andReturn()
+                .getResponse()
+                .getHeader("Location");
+
+        // Extract the ID from the Location header
+        assertThat(response).isNotNull();
+        String idStr = response.substring(response.lastIndexOf("/") + 1);
+        Long id = Long.parseLong(idStr);
+
+        mockMvc.perform(get("/unidade-aparelhos/" + id)
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.unidadeId").value(existingUnidade.getId()))
+                .andExpect(jsonPath("$.aparelhoId").value(existingAparelho.getId()))
+                .andExpect(jsonPath("$.quantidade").value(3));
+    }
+
+    @Test
+    void shouldReturnNotFoundWhenUnidadeAparelhoByIdNotExists() throws Exception {
+        mockMvc.perform(get("/unidade-aparelhos/999999")
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isNotFound())
+                .andExpect(result -> assertThat(result.getResolvedException())
+                        .isInstanceOf(NoSuchElementException.class));
+    }
+
+    @Test
+    void shouldDeleteUnidadeAparelhoSuccessfully() throws Exception {
+        UnidadeAparelhoDTO dto = new UnidadeAparelhoDTO();
+        dto.setUnidadeId(existingUnidade.getId());
+        dto.setAparelhoId(existingAparelho.getId());
+        dto.setQuantidade(2);
+        dto.setUltimaManutencao(LocalDate.now().minusDays(3));
+
+        String response = mockMvc.perform(post("/unidade-aparelhos")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(dto)))
+                .andExpect(status().isCreated())
+                .andReturn()
+                .getResponse()
+                .getHeader("Location");
+
+        // Extract ID from Location header
+        assertThat(response).isNotNull();
+        String idStr = response.substring(response.lastIndexOf("/") + 1);
+        Long id = Long.parseLong(idStr);
+
+        mockMvc.perform(delete("/unidade-aparelhos/" + id))
+                .andExpect(status().isNoContent());
+
+        mockMvc.perform(get("/unidade-aparelhos/" + id))
+                .andExpect(status().isNotFound())
+                .andExpect(result -> assertThat(result.getResolvedException())
+                        .isInstanceOf(NoSuchElementException.class));
+    }
+
+    @Test
+    void shouldReturnNotFoundWhenDeletingNonExistentUnidadeAparelho() throws Exception {
+        mockMvc.perform(delete("/unidade-aparelhos/999999"))
+                .andExpect(status().isNotFound())
+                .andExpect(result -> assertThat(result.getResolvedException())
+                        .isInstanceOf(NoSuchElementException.class));
+    }
+
 }

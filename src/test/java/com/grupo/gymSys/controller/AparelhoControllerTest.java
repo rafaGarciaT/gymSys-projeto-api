@@ -2,7 +2,9 @@ package com.grupo.gymSys.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.grupo.gymSys.domain.dto.AparelhoDTO;
+import com.grupo.gymSys.domain.dto.UsuarioDTO;
 import com.grupo.gymSys.domain.model.Aparelho;
+import com.grupo.gymSys.domain.model.Usuario;
 import com.grupo.gymSys.domain.repository.AparelhoRepository;
 import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,8 +38,7 @@ public class AparelhoControllerTest {
     void setup() {
         existingAparelho = new Aparelho();
         existingAparelho.setTipo("Esteira");
-        existingAparelho.setQuantidade(5);
-        existingAparelho.setUltimaManutencao(String.valueOf(LocalDate.now().minusMonths(2)));
+        existingAparelho.setNome("Esteira 5000");
 
         existingAparelho = aparelhoRepository.save(existingAparelho);
     }
@@ -58,7 +59,7 @@ public class AparelhoControllerTest {
     void shouldCreateAparelhoSuccessfully() throws Exception {
         AparelhoDTO dto = new AparelhoDTO();
         dto.setTipo("Bicicleta");
-        dto.setQuantidade(3);
+        dto.setNome("Bicicletona");
 
         mockMvc.perform(post("/aparelhos")
                         .contentType(MediaType.APPLICATION_JSON)
@@ -68,30 +69,57 @@ public class AparelhoControllerTest {
     }
 
     @Test
+    void shouldFailToCreateAparelhoWithDuplicateName() throws Exception {
+        AparelhoDTO dto = new AparelhoDTO();
+        dto.setId(100);
+        dto.setNome(existingAparelho.getNome());
+
+        mockMvc.perform(post("/aparelhos")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(dto)))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
     void shouldUpdateAparelhoSuccessfully() throws Exception {
         AparelhoDTO dto = new AparelhoDTO();
         dto.setId(existingAparelho.getId());
         dto.setTipo("Esteira Atualizada");
-        dto.setQuantidade(7);
+        dto.setNome("Esteira 6000");
 
         mockMvc.perform(put("/aparelhos/{id}", existingAparelho.getId())
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(objectMapper.writeValueAsString(dto)))
                 .andExpect(status().isOk())
-                .andExpect(jsonPath("$.quantidade").value(7));
+                .andExpect(jsonPath("$.nome").value("Esteira 6000"));
     }
 
     @Test
     void shouldDeleteAparelhoSuccessfully() throws Exception {
         Aparelho aparelho = new Aparelho();
         aparelho.setTipo("Elíptico");
-        aparelho.setQuantidade(2);
-        aparelho.setUltimaManutencao(String.valueOf(LocalDate.now()));
+        aparelho.setNome("Lilítico");
         Aparelho saved = aparelhoRepository.save(aparelho);
 
         mockMvc.perform(delete("/aparelhos/{id}", saved.getId()))
                 .andExpect(status().isNoContent());
 
+        Assertions.assertFalse(aparelhoRepository.findById(saved.getId()).isPresent());
+    }
+
+    @Test
+    void shouldFailToDeleteAparelhoWithNonexistentId() throws Exception {
+        Aparelho aparelho = new Aparelho();
+        aparelho.setNome("Escada 5000");
+        aparelho.setTipo("Escada");
+        Aparelho saved = aparelhoRepository.save(aparelho);
+
+        mockMvc.perform(delete("/aparelhos/{id}", saved.getId()))
+                .andExpect(status().isNoContent());
+        Assertions.assertFalse(aparelhoRepository.findById(saved.getId()).isPresent());
+
+        mockMvc.perform(delete("/aparelhos/{id}", saved.getId()))
+                .andExpect(status().isNotFound());
         Assertions.assertFalse(aparelhoRepository.findById(saved.getId()).isPresent());
     }
 }

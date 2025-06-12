@@ -87,6 +87,19 @@ public class UsuarioControllerTest {
     }
 
     @Test
+    void shouldFailToCreateUsuarioWithDuplicatePhone() throws Exception {
+        UsuarioDTO dto = new UsuarioDTO();
+        dto.setNome("Claro");
+        dto.setEmail("Blablabla@gmail.com");
+        dto.setTelefone(existingUsuario.getTelefone());
+
+        mockMvc.perform(post("/usuarios")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content(objectMapper.writeValueAsString(dto)))
+                .andExpect(status().isBadRequest());
+    }
+
+    @Test
     void shouldUpdateUsuarioSuccessfully() throws Exception {
         UsuarioDTO dto = new UsuarioDTO();
         dto.setId(existingUsuario.getId());
@@ -112,6 +125,23 @@ public class UsuarioControllerTest {
         mockMvc.perform(delete("/usuarios/{id}", saved.getId()))
                 .andExpect(status().isNoContent());
 
+        Assertions.assertFalse(usuarioRepository.findById(saved.getId()).isPresent());
+    }
+
+    @Test
+    void shouldFailToDeleteUsuarioWithNonexistentId() throws Exception {
+        Usuario user = new Usuario();
+        user.setNome("Carlos");
+        user.setEmail("carlos@email.com");
+        user.setTelefone("1177777-7777");
+        Usuario saved = usuarioRepository.save(user);
+
+        mockMvc.perform(delete("/usuarios/{id}", saved.getId()))
+                .andExpect(status().isNoContent());
+        Assertions.assertFalse(usuarioRepository.findById(saved.getId()).isPresent());
+
+        mockMvc.perform(delete("/usuarios/{id}", saved.getId()))
+                .andExpect(status().isNotFound());
         Assertions.assertFalse(usuarioRepository.findById(saved.getId()).isPresent());
     }
 }

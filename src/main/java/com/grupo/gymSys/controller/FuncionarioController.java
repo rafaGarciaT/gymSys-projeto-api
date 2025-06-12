@@ -20,10 +20,8 @@ import java.net.URI;
 @RequestMapping("/funcionarios")
 public class FuncionarioController {
 
-
     private final FuncionarioService funcionarioService;
     private final FuncionarioMapper funcionarioMapper;
-
 
     public FuncionarioController(FuncionarioService funcionarioService, FuncionarioMapper funcionarioMapper) {
         this.funcionarioService = funcionarioService;

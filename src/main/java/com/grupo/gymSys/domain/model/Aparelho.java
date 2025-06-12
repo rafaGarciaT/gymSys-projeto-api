@@ -12,22 +12,10 @@ public class Aparelho {
 
     private long id;
     private String tipo;
-    private int quantidade;
-    private String UltimaManutencao;
+    private String nome;
 
-    @OneToMany(mappedBy = "aparelho")
+    @OneToMany(mappedBy = "aparelho", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<UnidadeAparelho> unidadeAparelhos;
-
-    public Aparelho(String tipo, int quantidade, String ultimaManutencao) {
-        this.id = id;
-        UltimaManutencao = ultimaManutencao;
-        this.quantidade = quantidade;
-        this.tipo = tipo;
-    }
-
-    public Aparelho() {
-
-    }
 
     public long getId() {
         return id;
@@ -45,20 +33,12 @@ public class Aparelho {
         this.tipo = tipo;
     }
 
-    public int getQuantidade() {
-        return quantidade;
+    public String getNome() {
+        return nome;
     }
 
-    public void setQuantidade(int quantidade) {
-        this.quantidade = quantidade;
-    }
-
-    public String getUltimaManutencao() {
-        return UltimaManutencao;
-    }
-
-    public void setUltimaManutencao(String UltimaMenutencao) {
-        this.UltimaManutencao = UltimaMenutencao;
+    public void setNome(String nome) {
+        this.nome = nome;
     }
 
     public List<UnidadeAparelho> getUnidadeAparelhos() {

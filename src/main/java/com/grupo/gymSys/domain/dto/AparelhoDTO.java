@@ -1,21 +1,21 @@
 package com.grupo.gymSys.domain.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.validation.constraints.*;
+
+import java.time.LocalDate;
 
 public class AparelhoDTO {
     @PositiveOrZero(message = "Campo Id precisa ser 0 ou positivo")
-
     private long id;
 
     @NotBlank(message = "Campo tipo obrigatório.")
     @Size(max = 100, message = "Tipo não pode passar de 100 caracteres.")
-
     private String tipo;
 
-    @NotNull(message = "Campo quantidade obrigatório")
-    @Positive(message = "Quantidade precisa ser positivo")
-
-    private int quantidade;
+    @NotBlank(message = "Campo nome obrigatório.")
+    @Size(max = 100, message = "Nome não pode passar de 100 caracteres.")
+    private String nome;
 
     public long getId() {
         return id;
@@ -25,6 +25,7 @@ public class AparelhoDTO {
         this.id = id;
     }
 
+
     public String getTipo() {
         return tipo;
     }
@@ -33,11 +34,11 @@ public class AparelhoDTO {
         this.tipo = tipo;
     }
 
-    public int getQuantidade() {
-        return quantidade;
+    public String getNome() {
+        return nome;
     }
 
-    public void setQuantidade(int quantidade) {
-        this.quantidade = quantidade;
+    public void setNome(String nome) {
+        this.nome = nome;
     }
 }

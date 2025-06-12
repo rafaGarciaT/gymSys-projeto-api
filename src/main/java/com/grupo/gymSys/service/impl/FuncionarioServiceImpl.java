@@ -23,11 +23,11 @@ public class FuncionarioServiceImpl implements FuncionarioService {
     @Override
     public Funcionario create(Funcionario userToCreate) {
         if (funcionarioRepository.existsByNome(userToCreate.getNome())) {
-            throw new IllegalArgumentException("Já existe um Funcionario cadastrado com esse email.");
+            throw new IllegalArgumentException("Já existe um Funcionario cadastrado com esse nome.");
         }
 
         if (funcionarioRepository.existsById(userToCreate.getId())) {
-            throw new IllegalArgumentException("Já existe um Funcionario cadastrado com esse telefone.");
+            throw new IllegalArgumentException("Já existe um Funcionario cadastrado com esse id.");
         }
 
         return funcionarioRepository.save(userToCreate);

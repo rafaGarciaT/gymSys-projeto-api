@@ -9,11 +9,14 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import java.net.URI;
 import java.util.List;
 
-@Tag(name="Aparelhos")
 
+
+@Tag(name="Unidade-Aparelhos")
 @RestController
 @RequestMapping("/unidade-aparelhos")
 public class UnidadeAparelhoController {
@@ -25,13 +28,16 @@ public class UnidadeAparelhoController {
         this.service = service;
         this.mapper = mapper;
     }
-    @Operation(summary = "Cadastrar novo aparelho")
+    @Operation(summary = "Associar um aparelho com uma unidade")
     @PostMapping
     public ResponseEntity<Void> associate(@Valid @RequestBody UnidadeAparelhoDTO dto) {
         UnidadeAparelho created = service.createOrUpdate(dto);
-        return ResponseEntity.ok().build();
+        URI location = ServletUriComponentsBuilder
+                .fromCurrentRequest().path("/{id}")
+                .buildAndExpand(created.getId()).toUri();
+        return ResponseEntity.created(location).build();
     }
-    @Operation(summary = "Buscar aparelho")
+    @Operation(summary = "Listar aparelhos por unidade")
     @GetMapping("/unidade/{id}")
     public ResponseEntity<List<UnidadeAparelhoDTO>> listByUnidade(@PathVariable Long id) {
         List<UnidadeAparelho> entities = service.listByUnidade(id);
@@ -40,4 +46,18 @@ public class UnidadeAparelhoController {
                 .toList();
         return ResponseEntity.ok(dtos);
     }
+
+    @Operation(summary = "Buscar associações")
+    @GetMapping("/{id}")
+    public ResponseEntity<UnidadeAparelhoDTO> getById(@PathVariable Long id) {
+        UnidadeAparelho entity = service.findById(id);
+        return ResponseEntity.ok(mapper.toDTO(entity));
+    }
+    @Operation(summary = "Deletar associações")
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
+        service.deleteById(id);
+        return ResponseEntity.noContent().build();
+    }
+
 }

@@ -9,4 +9,9 @@ public interface UnidadeAparelhoService {
     public UnidadeAparelho createOrUpdate(UnidadeAparelhoDTO dto);
 
     public List<UnidadeAparelho> listByUnidade(Long unidadeId);
+
+    UnidadeAparelho findById(Long id);
+
+    void deleteById(Long id);
+
 }

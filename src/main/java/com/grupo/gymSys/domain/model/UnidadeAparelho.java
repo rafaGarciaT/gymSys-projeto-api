@@ -5,6 +5,7 @@ import jakarta.persistence.*;
 import java.time.LocalDate;
 
 @Entity
+@Table(name = "tb_unidade_aparelhos")
 public class UnidadeAparelho {
     @Id
     @GeneratedValue
@@ -14,11 +15,11 @@ public class UnidadeAparelho {
     private LocalDate ultimaManutencao;
 
     @ManyToOne
-    @JoinColumn(name = "unidade_id")
+    @JoinColumn(name = "unidade_id", nullable = false)
     private Unidade unidade;
 
     @ManyToOne
-    @JoinColumn(name = "aparelho_id")
+    @JoinColumn(name = "aparelho_id", nullable = false)
     private Aparelho aparelho;
 
     public Long getId() {

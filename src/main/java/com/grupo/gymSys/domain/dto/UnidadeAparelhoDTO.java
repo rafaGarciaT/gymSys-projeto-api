@@ -6,8 +6,8 @@ import jakarta.validation.constraints.*;
 import java.time.LocalDate;
 
 public class UnidadeAparelhoDTO {
-    @PositiveOrZero(message = "Campo Id precisa ser 0 ou positivo.")
-    private Long id;
+    //@PositiveOrZero(message = "Campo Id precisa ser 0 ou positivo.")
+    //private Long id;
 
     @NotNull(message = "Campo unidadeId obrigatorio.")
     @PositiveOrZero(message = "Campo unidadeId precisa ser 0 ou positivo.")
@@ -25,13 +25,13 @@ public class UnidadeAparelhoDTO {
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private LocalDate ultimaManutencao;
 
-    public Long getId() {
-        return id;
-    }
+    //public Long getId() {
+    //    return id;
+    //}
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+    //public void setId(Long id) {
+    //    this.id = id;
+    //}
 
     public LocalDate getUltimaManutencao() {
         return ultimaManutencao;

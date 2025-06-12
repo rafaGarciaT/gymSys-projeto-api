@@ -4,5 +4,5 @@ import com.grupo.gymSys.domain.model.Aparelho;
 import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface AparelhoRepository extends JpaRepository<Aparelho, Long> {
-    boolean existsByTipo(String Tipo);
+    boolean existsByNome(String Nome);
 }
