@@ -15,6 +15,8 @@ Ela foi desenvolvida pelos seguintes integrantes:
 - André Nicolas Gonsalves Batista (nidrean, andre-nicolas): Desenvolvimento da entidade “Aparelhos” (entity, DTO, mapper, service, controller), read.me.
 - Rafael Garcia Trigo (rafaGarciaT): Desenvolvimento da entidade “Usuários” (entity, DTO, mapper, service, controller).
 
+## Links: 
+- Swagger https://gymsys-projeto-api.onrender.com/swagger-ui/index.html#/
 ------------
 
 ## Como Executar o Projeto
